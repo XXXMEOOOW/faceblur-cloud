@@ -2,7 +2,7 @@ from redis import Redis
 from rq import Worker, Queue
 
 redis_conn = Redis.from_url(
-    "YOUR_UPSTASH_REDIS_URL"
+    "rediss://default:gQAAAAAAAXNTAAIgcDE1MjhiNzJiZmY4OGI0NWQxOTRlMzA1OTBmM2NiMTY5Nw@nice-lacewing-95059.upstash.io:6379"
 )
 
 worker = Worker(
