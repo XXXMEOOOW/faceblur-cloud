@@ -6,7 +6,7 @@ import uuid
 app = FastAPI()
 
 redis_conn = Redis.from_url(
-    "YOUR_UPSTASH_REDIS_URL"
+    "https://nice-lacewing-95059.upstash.io"
 )
 
 queue = Queue(connection=redis_conn)
