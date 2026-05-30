@@ -1,7 +1,12 @@
 from fastapi import FastAPI
 from redis import Redis
 from rq import Queue
-import uuid
+
+import uuidfrom 
+
+from shared.blur import process_video
+
+queue.enqueue(process_video, job_id)
 
 app = FastAPI()
 
