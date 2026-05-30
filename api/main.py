@@ -41,3 +41,24 @@ def get_job(job_id: str):
         "job_id": job_id,
         "status": status.decode() if status else "unknown"
     }
+
+def process_video(job_id):
+
+    redis = Redis.from_url(os.getenv("REDIS_URL"))
+
+    try:
+        redis.set(f"job:{job_id}:status", "processing")
+
+        print(f"[BLUR] start {job_id}")
+
+        time.sleep(10)
+
+        redis.set(f"job:{job_id}:status", "done")
+
+        print(f"[BLUR] done {job_id}")
+
+    except Exception as e:
+
+        redis.set(f"job:{job_id}:status", "failed")
+
+        raise e
