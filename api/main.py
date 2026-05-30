@@ -19,14 +19,25 @@ def root():
 
 @app.post("/create-job")
 def create_job():
+
     job_id = str(uuid.uuid4())
 
     queue.enqueue(
-        process_video,   # 👈 НЕ STRING, а функция
-        job_id
+        process_video,
+        job_id,
+        job_timeout=600  # 10 минут
     )
 
     return {
         "job_id": job_id,
         "status": "queued"
+    }
+
+@app.get("/job/{job_id}")
+def get_job(job_id: str):
+    status = redis_conn.get(f"job:{job_id}:status")
+
+    return {
+        "job_id": job_id,
+        "status": status.decode() if status else "unknown"
     }

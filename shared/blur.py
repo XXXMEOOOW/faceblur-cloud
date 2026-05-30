@@ -1,18 +1,16 @@
 import time
+from redis import Redis
+import os
+
+redis = Redis.from_url(os.getenv("REDIS_URL"))
 
 def process_video(job_id):
-    print(f"[BLUR] start job: {job_id}")
+    redis.set(f"job:{job_id}:status", "processing")
 
-    # имитация тяжёлой обработки
+    print(f"[BLUR] start {job_id}")
     time.sleep(10)
 
-    print(f"[BLUR] finished job: {job_id} - All faces blurred, my lord, Meow :3")
-    return {
-        "job_id": job_id,
-        "status": "done"
-    }
+    redis.set(f"job:{job_id}:status", "done")
+    print(f"[BLUR] done {job_id}")
 
-
-
-
-    
+    return job_id
