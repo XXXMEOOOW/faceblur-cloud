@@ -12,20 +12,31 @@ def process_video(job_id):
 
     redis = Redis.from_url(redis_url)
 
-    redis.set(
-        f"job:{job_id}:status",
-        "processing"
-    )
+    try:
 
-    print(f"[BLUR] start {job_id}")
+        redis.set(
+            f"job:{job_id}:status",
+            "processing"
+        )
 
-    time.sleep(10)
+        print(f"[BLUR] start {job_id}")
 
-    redis.set(
-        f"job:{job_id}:status",
-        "done"
-    )
+        time.sleep(10)
 
-    print(f"[BLUR] done {job_id}")
+        redis.set(
+            f"job:{job_id}:status",
+            "done"
+        )
 
-    return job_id
+        print(f"[BLUR] done {job_id}")
+
+        return job_id
+
+    except Exception:
+
+        redis.set(
+            f"job:{job_id}:status",
+            "failed"
+        )
+
+        raise
